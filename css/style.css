@@ -59,3 +59,9 @@ footer{padding:2.5rem 5vw;display:flex;align-items:center;gap:1.5rem;flex-wrap:w
 .lb figcaption{padding:.8rem;color:var(--mute)}
 .lb button{position:absolute;background:rgba(255,255,255,.12);color:#fff;border:0;border-radius:50%;width:48px;height:48px;font-size:1.8rem;line-height:1;cursor:pointer}
 .lb button:hover{background:var(--or);color:#1a1008}.lbx{top:16px;right:16px}.lbp{left:12px;top:50%}.lbn{right:12px;top:50%}
+
+.spaces{display:flex;grid-template-columns:none;gap:1rem;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;margin:0 -5vw;padding:0 5vw}
+.spaces::-webkit-scrollbar{display:none}
+.spaces figure{flex:0 0 auto;margin:0}.spaces .wide{grid-column:auto}
+.spaces figure img{height:340px;width:auto;max-width:none;min-height:0;aspect-ratio:auto;display:block}
+@media (max-width:600px){.spaces figure img{height:260px}}
