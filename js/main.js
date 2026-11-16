@@ -56,3 +56,24 @@ show(Object.keys(M)[0]);
  el.textContent=open?'Open now · until 9:30 PM':'Closed now · opens 11:00 AM';
 })();
 document.getElementById('yr').textContent=new Date().getFullYear();
+
+(function(){
+ const s=[...document.querySelectorAll('.slides img')];if(s.length<2)return;
+ const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;if(reduce)return;
+ let i=0;setInterval(()=>{if(document.hidden)return;s[i].classList.remove('on');i=(i+1)%s.length;s[i].classList.add('on')},5000);
+})();
+
+(function(){
+ const figs=[...document.querySelectorAll('.spaces figure')],lb=document.getElementById('lb');
+ const im=document.getElementById('lbimg'),cap=document.getElementById('lbcap');let k=0,last=null;
+ function show(n){k=(n+figs.length)%figs.length;const f=figs[k].querySelector('img');im.src=f.src;im.alt=f.alt;cap.textContent=figs[k].querySelector('figcaption').textContent+'  ·  '+(k+1)+' / '+figs.length}
+ function open(n){last=document.activeElement;show(n);lb.hidden=false;document.body.style.overflow='hidden';lb.querySelector('.lbx').focus()}
+ function close(){lb.hidden=true;document.body.style.overflow='';if(last)last.focus()}
+ figs.forEach((f,n)=>{f.tabIndex=0;f.setAttribute('role','button');f.setAttribute('aria-label','View photo: '+f.querySelector('figcaption').textContent);
+  f.addEventListener('click',()=>open(n));f.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open(n)}})});
+ lb.querySelector('.lbx').onclick=close;lb.querySelector('.lbp').onclick=()=>show(k-1);lb.querySelector('.lbn').onclick=()=>show(k+1);
+ lb.addEventListener('click',e=>{if(e.target===lb)close()});
+ document.addEventListener('keydown',e=>{if(lb.hidden)return;if(e.key==='Escape')close();if(e.key==='ArrowLeft')show(k-1);if(e.key==='ArrowRight')show(k+1)});
+ let x0=null;lb.addEventListener('touchstart',e=>{x0=e.touches[0].clientX},{passive:true});
+ lb.addEventListener('touchend',e=>{if(x0===null)return;const d=e.changedTouches[0].clientX-x0;if(Math.abs(d)>50)show(k+(d<0?1:-1));x0=null});
+})();
